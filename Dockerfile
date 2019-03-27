@@ -26,7 +26,7 @@ WORKDIR /usr/local/src
 RUN apt-get install -q -y --no-install-recommends wget
 
 # change only this line for different Omnet++ versions
-RUN wget https://ipfs.omnetpp.org/release/5.4.1/omnetpp-5.4.1-src-core.tgz --output-document=omnetpp.tgz
+RUN wget --no-check-certificate https://ipfs.omnetpp.org/release/5.4.1/omnetpp-5.4.1-src-core.tgz --output-document=omnetpp.tgz
 RUN mkdir omnetpp && tar xfz omnetpp.tgz -C omnetpp --strip-components 1 && rm omnetpp.tgz
 WORKDIR omnetpp
 RUN sed -i "/WITH_TKENV=yes/c\WITH_TKENV=no" configure.user; \
