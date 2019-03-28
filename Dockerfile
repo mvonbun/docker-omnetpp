@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS base
+FROM ubuntu:16.04 AS base
 MAINTAINER Michael Vonbun <michael.vonbun@tum.de>
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -11,14 +11,19 @@ LABEL org.label-schema.build-date=$BUILD_DATE                              \
       org.label-schema.schema-version="1.1"
 
 ENV PATH /usr/local/src/omnetpp/bin:$PATH
-RUN set -x; \
-    apt-get update -q -y; \
+
+# intall required packages
+# qt5-default \
+# perl python python3  libqt5opengl5-dev tcl-dev tk-dev \
+# default-jre doxygen graphviz libwebkitgtk-1.0;
+RUN set -x;                                       \
+    apt-get update -q -y;                         \
     apt-get install -q -y --no-install-recommends \
-        build-essential gcc g++ bison flex \
-	libxml2-dev zlib1g-dev
-	# qt5-default \
-	# perl python python3  libqt5opengl5-dev tcl-dev tk-dev \
-        # default-jre doxygen graphviz libwebkitgtk-1.0;
+        build-essential gcc g++ bison flex        \
+	libxml2-dev zlib1g-dev;                   \
+    apt-get autoremove -q -y;                     \
+    apt-get clean -q -y;                          \
+    rm -rf /var/lib/apt/lists/*
 
 # intermediate stage that builds omnet
 FROM base AS build
