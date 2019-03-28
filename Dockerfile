@@ -34,10 +34,10 @@ RUN apt-get install -q -y --no-install-recommends wget
 RUN wget --no-check-certificate https://ipfs.omnetpp.org/release/5.4.1/omnetpp-5.4.1-src-core.tgz --output-document=omnetpp.tgz
 RUN mkdir omnetpp && tar xfz omnetpp.tgz -C omnetpp --strip-components 1 && rm omnetpp.tgz
 WORKDIR omnetpp
-RUN sed -i "/WITH_TKENV=yes/c\WITH_TKENV=no" configure.user; \
-    sed -i "/WITH_QTENV=yes/c\WITH_QTENV=no" configure.user; \
-    sed -i "/PREFER_QTENV=yes/c\PREFER_QTENV=no" configure.user; \
-    sed -i "/WITH_OSG=yes/c\WITH_OSG=no" configure.user; \
+RUN sed -i "/WITH_TKENV=yes/c\WITH_TKENV=no" configure.user;       \
+    sed -i "/WITH_QTENV=yes/c\WITH_QTENV=no" configure.user;       \
+    sed -i "/PREFER_QTENV=yes/c\PREFER_QTENV=no" configure.user;   \
+    sed -i "/WITH_OSG=yes/c\WITH_OSG=no" configure.user;           \
     sed -i "/WITH_OSGEARTH=yes/c\WITH_OSGEARTH=no" configure.user; \
     ./configure && make
 
