@@ -11,19 +11,29 @@ LABEL org.label-schema.build-date=$BUILD_DATE                              \
       org.label-schema.schema-version="1.1"
 
 ENV PATH /usr/local/src/omnetpp/bin:$PATH
-RUN set -x; \
-    apt-get update -q -y; \
+
+# intall required packages
+# qt5-default \
+# perl python python3  libqt5opengl5-dev tcl-dev tk-dev \
+# default-jre doxygen graphviz libwebkitgtk-1.0;
+RUN set -x;                                       \
+    apt-get update -q -y;                         \
     apt-get install -q -y --no-install-recommends \
-        build-essential gcc g++ bison flex \
-	libxml2-dev zlib1g-dev
-	# qt5-default \
-	# perl python python3  libqt5opengl5-dev tcl-dev tk-dev \
-        # default-jre doxygen graphviz libwebkitgtk-1.0;
+        build-essential gcc g++ bison flex        \
+	libxml2-dev zlib1g-dev;                   \
+    apt-get autoremove -q -y;                     \
+    apt-get clean -q -y;                          \
+    rm -rf /var/lib/apt/lists/*
 
 # intermediate stage that builds omnet
 FROM base AS build
 WORKDIR /usr/local/src
-RUN apt-get install -q -y --no-install-recommends wget
+RUN set -x;                                             \
+    apt-get update -q -y;                               \
+    apt-get install -q -y --no-install-recommends wget; \
+    apt-get autoremove -q -y;                           \
+    apt-get clean -q -y;                                \
+    rm -rf /var/lib/apt/lists/*
 
 # change only this line for different Omnet++ versions
 RUN wget --no-check-certificate https://ipfs.omnetpp.org/release/5.4.1/omnetpp-5.4.1-src-core.tgz --output-document=omnetpp.tgz
