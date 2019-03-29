@@ -28,7 +28,12 @@ RUN set -x;                                       \
 # intermediate stage that builds omnet
 FROM base AS build
 WORKDIR /usr/local/src
-RUN apt-get install -q -y --no-install-recommends wget
+RUN set -x;                                             \
+    apt-get update -q -y;                               \
+    apt-get install -q -y --no-install-recommends wget; \
+    apt-get autoremove -q -y;                           \
+    apt-get clean -q -y;                                \
+    rm -rf /var/lib/apt/lists/*
 
 # change only this line for different Omnet++ versions
 RUN wget --no-check-certificate https://ipfs.omnetpp.org/release/5.0/omnetpp-5.0-src.tgz --output-document=omnetpp.tgz
