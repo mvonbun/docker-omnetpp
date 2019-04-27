@@ -35,6 +35,7 @@ RUN set -x;                                             \
     apt-get clean -q -y;                                \
     rm -rf /var/lib/apt/lists/*
 
+
 # change only this line for different Omnet++ versions
 RUN wget --no-check-certificate https://ipfs.omnetpp.org/release/5.0/omnetpp-5.0-src.tgz --output-document=omnetpp.tgz
 RUN mkdir omnetpp && tar xfz omnetpp.tgz -C omnetpp --strip-components 1 && rm omnetpp.tgz
@@ -48,6 +49,7 @@ RUN sed -i "/WITH_TKENV=yes/c\WITH_TKENV=no" configure.user;       \
 
 FROM base as final
 COPY --from=build /usr/local/src /usr/local/src
+RUN echo '/sim/core.%h.%e.%t' > /proc/sys/kernel/core_pattern
 WORKDIR /sim
 
 
