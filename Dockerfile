@@ -11,6 +11,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE                              \
       org.label-schema.schema-version="1.1"
 
 ENV PATH /usr/local/src/omnetpp/bin:$PATH
+ENV LD_LIBRARY_PATH /usr/local/src/omnetpp/lib:$LD_LIBRARY_PATH
 
 # intall required packages
 # qt5-default \
@@ -45,7 +46,7 @@ RUN sed -i "/WITH_TKENV=yes/c\WITH_TKENV=no" configure.user;       \
     sed -i "/PREFER_QTENV=yes/c\PREFER_QTENV=no" configure.user;   \
     sed -i "/WITH_OSG=yes/c\WITH_OSG=no" configure.user;           \
     sed -i "/WITH_OSGEARTH=yes/c\WITH_OSGEARTH=no" configure.user; \
-    . setenv && ./configure && make
+    source setenv && ./configure && make
 
 FROM base as final
 COPY --from=build /usr/local/src /usr/local/src
