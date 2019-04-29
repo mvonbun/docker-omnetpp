@@ -45,7 +45,7 @@ RUN sed -i "/WITH_TKENV=yes/c\WITH_TKENV=no" configure.user;       \
     sed -i "/PREFER_QTENV=yes/c\PREFER_QTENV=no" configure.user;   \
     sed -i "/WITH_OSG=yes/c\WITH_OSG=no" configure.user;           \
     sed -i "/WITH_OSGEARTH=yes/c\WITH_OSGEARTH=no" configure.user; \
-    ./configure && make
+    . setenv && ./configure && make
 
 FROM base as final
 COPY --from=build /usr/local/src /usr/local/src
